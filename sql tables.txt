@@ -1,0 +1,91 @@
+<?php
+
+
+ $dbconn = pg_connect("host=ec2-3-211-48-92.compute-1.amazonaws.com dbname=d1pn7nm8uitbos user=xgorbrjcjnhgnw password=2d97ced0f4bd8c9fa4d5ca20c7c36a102f95f36efe7adecb1b025fae195b7c13");
+
+ $userID = 1;
+ $username = "admin";
+ $name = "admin";
+ $password = PASSWORD_HASH("admin", PASSWORD_BCRYPT);
+ $email = "l.s.ross@rgu.ac.uk";
+ $role = "admin";
+ $money = 100;
+  
+  
+				$stmt = $dbconn->prepare('INSERT INTO users (userID,username,name,password,email,role, money) VALUES (:userID, :username, :name, :password, :email, :role, :money)') ;
+
+				$stmt->execute(array(
+
+					':userID' => $userID,
+
+					':username' => $username,
+
+					':name' => $name,
+					
+					':password' => $password,
+					
+					':email' => $email,
+
+					':role' => $role,
+					
+					':money' => $money
+
+                  
+
+				));
+  
+
+			try {
+
+
+
+
+				
+		$stmt = $dbconn->query('SELECT userID, username, name, password, email, role FROM users');
+
+			while($row = $stmt->fetch()){
+          	echo $row['password'];
+
+
+			}
+
+
+
+		} catch(PDOException $e) {
+
+		    echo $e->getMessage();
+
+		}
+
+  ?>
+  
+  CREATE TABLE users (
+    userID SERIAL,
+    username VARCHAR(250),
+    name VARCHAR(255),
+    password VARCHAR(255),
+	email VARCHAR(255),
+	role VARCHAR(255),
+	money DECIMAL
+);
+
+
+  CREATE TABLE stock (
+    stockID SERIAL,
+    product VARCHAR(250),
+	price DECIMAL,
+    stock INT
+);
+
+
+	
+
+CREATE TABLE subscribe (
+	subscribeID SERIAL,
+	email VARCHAR(250)
+	);
+	
+
+heroku pg:psql
+
+
